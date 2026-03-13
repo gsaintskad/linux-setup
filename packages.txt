@@ -1,0 +1,40 @@
+# Hyprland & Wayland
+hyprland
+hyprland-devel
+xdg-desktop-portal-hyprland
+hyprsunset
+
+# Bar & Launcher
+waybar
+rofi-wayland
+
+# Terminal
+kitty
+
+# File Manager
+nautilus
+
+# Screenshot
+grim
+slurp
+wl-clipboard
+
+# Wallpaper
+swww
+
+# Bluetooth
+blueman
+
+# Screen Lock
+hyprlock
+
+# System Info
+fastfetch
+
+# Fonts (common for Catppuccin setups)
+google-noto-fonts-common
+google-noto-sans-fonts
+fontawesome-fonts
+
+# Misc
+dbus
