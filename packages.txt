@@ -3,6 +3,7 @@ hyprland
 hyprland-devel
 xdg-desktop-portal-hyprland
 hyprsunset
+hyprlock
 
 # Bar & Launcher
 waybar
@@ -22,8 +23,14 @@ wl-clipboard
 # Wallpaper
 swww
 
-# Bluetooth
+# Audio
+pavucontrol
 blueman
+
+# GTK4 popups
+python3-gobject
+gtk4
+libadwaita
 
 # Screen Lock
 hyprlock
@@ -31,10 +38,9 @@ hyprlock
 # System Info
 fastfetch
 
-# Fonts (common for Catppuccin setups)
+# Fonts
 google-noto-fonts-common
 google-noto-sans-fonts
-fontawesome-fonts
 
 # Misc
 dbus

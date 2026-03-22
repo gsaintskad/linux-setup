@@ -46,13 +46,14 @@ link_configs() {
         src="$SCRIPT_DIR/config/$dir"
         dest="$CONFIG_DIR/$dir"
         if [ -d "$src" ]; then
-            mkdir -p "$dest"
-            for file in "$src"/*; do
-                fname="$(basename "$file")"
-                # Remove existing file/link before symlinking
-                rm -f "$dest/$fname"
-                ln -s "$file" "$dest/$fname"
-                echo "  $dest/$fname -> $file"
+            # Recursively link all files preserving subdirectory structure
+            find "$src" -type f | while read -r file; do
+                rel="${file#$src/}"
+                dest_file="$dest/$rel"
+                mkdir -p "$(dirname "$dest_file")"
+                rm -f "$dest_file"
+                ln -s "$file" "$dest_file"
+                echo "  $dest_file -> $file"
             done
         fi
     done
@@ -64,7 +65,17 @@ link_configs() {
         echo "  ~/wallpapers/wallpaper.png -> $SCRIPT_DIR/wallpapers/wallpaper.png"
     fi
 
-    # Scripts
+    # Keybinds viewer
+    mkdir -p "$HOME/Documents/themes/keybinds"
+    for f in keybinds.sh keybinds.rasi; do
+        if [ -f "$SCRIPT_DIR/scripts/$f" ]; then
+            ln -sf "$SCRIPT_DIR/scripts/$f" "$HOME/Documents/themes/keybinds/$f"
+            chmod +x "$SCRIPT_DIR/scripts/$f"
+            echo "  ~/Documents/themes/keybinds/$f -> $SCRIPT_DIR/scripts/$f"
+        fi
+    done
+
+    # Scripts to PATH
     mkdir -p "$HOME/.local/bin"
     for script in "$SCRIPT_DIR/scripts"/*.sh; do
         [ -f "$script" ] || continue
