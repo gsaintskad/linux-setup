@@ -117,10 +117,10 @@
         "on-click-right": "killall rofi",
         "tooltip": false,
     },
-    "custom/bluetooth":{
+    "custom/bluetooth": {
         "format": "{}",
-        "exec": "if bluetoothctl show | grep -q 'Powered: yes'; then if bluetoothctl devices Connected | grep -q Device; then echo '\uf294'; else echo '\uf294'; fi; else echo '\uf294'; fi",
-        "interval": 5,
+        "exec": "~/.config/waybar/scripts/bluetooth-status.sh",
+        "interval": 3,
         "on-click": "python3 ~/.config/waybar/scripts/bluetooth-popup.py",
         "on-click-right": "blueman-manager",
         "tooltip": false
