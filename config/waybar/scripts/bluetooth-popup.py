@@ -333,7 +333,44 @@ class BluetoothPopup(Adw.Application):
             btn.add_css_class("flat")
             btn.add_css_class("device-btn")
             btn.connect("clicked", self.on_device_clicked, mac, connected)
+
+            # Right-click context menu
+            gesture = Gtk.GestureClick(button=3)
+            gesture.connect("released", self.on_device_right_click, mac, name)
+            btn.add_controller(gesture)
+
             self.device_box.append(btn)
+
+    def on_device_right_click(self, gesture, n_press, x, y, mac, name):
+        popover = Gtk.Popover()
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        box.set_margin_top(4)
+        box.set_margin_bottom(4)
+        box.set_margin_start(4)
+        box.set_margin_end(4)
+
+        forget_btn = Gtk.Button(label=f"Forget {name}")
+        forget_btn.add_css_class("flat")
+        forget_btn.add_css_class("error")
+        forget_btn.connect("clicked", self.on_forget_device, mac, popover)
+        box.append(forget_btn)
+
+        popover.set_child(box)
+        widget = gesture.get_widget()
+        popover.set_parent(widget)
+        popover.popup()
+
+    def on_forget_device(self, btn, mac, popover):
+        popover.popdown()
+        btn.set_sensitive(False)
+        btn.set_label("Removing...")
+
+        def _do():
+            run(["bluetoothctl", "disconnect", mac], timeout=5)
+            run(["bluetoothctl", "untrust", mac], timeout=5)
+            run(["bluetoothctl", "remove", mac], timeout=5)
+            GLib.idle_add(self.populate_devices)
+        threading.Thread(target=_do, daemon=True).start()
 
     def on_device_clicked(self, btn, mac, currently_connected):
         btn.set_sensitive(False)
