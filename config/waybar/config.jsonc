@@ -9,7 +9,8 @@
 		"scroll-step": 5,
 		"format": "{icon}  {volume}%",
 		"format-muted": "muted",
-		"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
+		"on-click": "python3 ~/.config/waybar/scripts/volume-popup.py",
+		"on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
 		"format-icons": {
 			"default": ["", "", ""]
 		}
